@@ -1779,31 +1779,37 @@ with oself;
   };
 
   ocaml-lsp = osuper.ocaml-lsp.overrideAttrs (o: {
-    buildInputs = o.buildInputs ++ [ base ];
+      src = if isFlambda2 then builtins.fetchurl {
+        url = "https://github.com/ocaml/ocaml-lsp/releases/download/1.19.0/lsp-1.19.0.tbz";
+        sha256 = "sha256:1v75vqhr4i8bx0ys9k5v978qndi8l8salj4i9jzy377qlzqxk0z7";
+      } else o.src; 
+      patches = if isFlambda2 then [ ./flambda2-ocaml-lsp.patch ] else [];
+      buildInputs = o.buildInputs ++ [ base ];
 
-    postPatch =
-      if
-        lib.versionOlder "5.2" ocaml.version ||
-        (lib.versionOlder "4.14" ocaml.version &&
-        !(lib.versionOlder "5.0" ocaml.version))
-      then ""
-      else ''
-        substituteInPlace ocaml-lsp-server/src/merlin_config.ml --replace-fail \
-          '| `ERROR_MSG' '| `SOURCE_ROOT _ | `UNIT_NAME _ | `WRAPPING_PREFIX _ -> assert false | `ERROR_MSG'
+      postPatch =
+        if
+          isFlambda2 ||
+          lib.versionOlder "5.2" ocaml.version ||
+          (lib.versionOlder "4.14" ocaml.version &&
+          !(lib.versionOlder "5.0" ocaml.version))
+        then ""
+        else ''
+          substituteInPlace ocaml-lsp-server/src/merlin_config.ml --replace-fail \
+            '| `ERROR_MSG' '| `SOURCE_ROOT _ | `UNIT_NAME _ | `WRAPPING_PREFIX _ -> assert false | `ERROR_MSG'
 
-        substituteInPlace \
-          "ocaml-lsp-server/src/rename.ml" \
-          "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
-          'List.map locs' 'List.map (fst locs)'
+          substituteInPlace \
+            "ocaml-lsp-server/src/rename.ml" \
+            "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
+            'List.map locs' 'List.map (fst locs)'
 
-        substituteInPlace \
-          "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
-          'List.filter_map locs' 'List.filter_map (fst locs)'
+          substituteInPlace \
+            "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
+            'List.filter_map locs' 'List.filter_map (fst locs)'
 
-        substituteInPlace \
-          "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
-          'List.find_opt locs' 'List.find_opt (fst locs)'
-      '';
+          substituteInPlace \
+            "ocaml-lsp-server/src/ocaml_lsp_server.ml" --replace-fail \
+            'List.find_opt locs' 'List.find_opt (fst locs)'
+        '';
   });
 
   ocaml-recovery-parser = osuper.ocaml-recovery-parser.overrideAttrs (o: {

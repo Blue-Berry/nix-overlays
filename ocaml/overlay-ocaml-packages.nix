@@ -122,29 +122,29 @@ let
 
       ocamlPackages_flambda2 = newOCamlScope {
         major_version = "5";
-        minor_version = "1";
-        patch_version = "1+flambda2";
+        minor_version = "2";
+        patch_version = "0+flambda2";
         src = super.fetchFromGitHub {
           owner = "ocaml-flambda";
           repo = "flambda-backend";
-          rev = "5.1.1minus-20";
-          hash = "sha256-r+6YzJybGMWYiKLm9Rh5GiAWgt8wI539XRcawXhNYRw=";
+          rev = "5.2.0minus-2";
+          hash = "sha256-gSLdBhouupPw6y4EMh3FTSG9MU8rPKllpQIJmaj3G1I=";
         };
         overrideAttrs =
           let
-            ocaml14Scope = self.ocaml-ng.ocamlPackages_4_14.overrideScope (oself: osuper: {
+            ocamlInitScope = self.ocaml-ng.ocamlPackages_4_14.overrideScope (oself: osuper: {
 
               menhir = osuper.menhir.overrideAttrs (o: {
                 buildInputs = with oself; [ menhirLib menhirSdk ];
               });
               menhirLib = osuper.menhirLib.overrideAttrs (_: {
-                version = "20210419";
+                version = "20231231";
                 src = super.fetchFromGitLab {
                   owner = "fpottier";
                   repo = "menhir";
-                  rev = "20210419";
+                  rev = "20231231";
                   domain = "gitlab.inria.fr";
-                  hash = "sha256-fg4A8dobKvE4iCkX7Mt13px3AIFDL+96P9nxOPTJi0k=";
+                  hash = "sha256-veB0ORHp6jdRwCyDDAfc7a7ov8sOeHUmiELdOFf/QYk=";
                 };
               });
             });
@@ -163,7 +163,7 @@ let
               autoconf
             '';
             configureFlags = [
-              "--enable-runtime5"
+              # "--enable-runtime5"
               "--enable-middle-end=flambda2"
               "--disable-naked-pointers"
             ];
@@ -172,9 +172,9 @@ let
               make install
               cp ${./compiler-libs-flambda2.META} $out/lib/ocaml/compiler-libs/META
             '';
-            patches = [ ./flambda2.patch ];
+            patches = [ ./flambda2-patchs/meta.patch ./flambda2-patchs/remove-sigwit.patch];
             nativeBuildInputs =
-              with ocaml14Scope; [
+              with ocamlInitScope; [
                 ocaml
                 findlib
                 dune
@@ -184,7 +184,7 @@ let
                 super.rsync
                 super.which
               ];
-            buildInputs = o.buildInputs ++ (with ocaml14Scope; [ menhirLib ]);
+            buildInputs = o.buildInputs ++ (with ocamlInitScope; [ menhirLib ]);
           };
       };
 
