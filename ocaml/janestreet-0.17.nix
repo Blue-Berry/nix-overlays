@@ -2564,13 +2564,13 @@ in
     src =
       if isFlambda2
       then
-      fetchFromGitHub
-        {
-          owner = "janestreet";
-          repo = "sexplib0";
-          rev = "c858b0c9b5d12283ba48c94b6d9f070bab0eb733";
-          hash = "sha256-tAoZNKsmhjQCVs0oGVhz/83whDS1AI8AExqX46Hw7kM=";
-        }
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "sexplib0";
+            rev = "c858b0c9b5d12283ba48c94b6d9f070bab0eb733";
+            hash = "sha256-tAoZNKsmhjQCVs0oGVhz/83whDS1AI8AExqX46Hw7kM=";
+          }
       else o.src;
   });
 
