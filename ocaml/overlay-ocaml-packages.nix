@@ -163,10 +163,13 @@ let
               autoconf
             '';
             configureFlags = [
-              # "--enable-runtime5"
+              "--enable-runtime5"
               "--enable-middle-end=flambda2"
               "--disable-naked-pointers"
             ];
+            preBuild = ''
+              patchShebangs --build ./
+            '';
             buildFlags = [ "compiler" ];
             installPhase = ''
               make install
