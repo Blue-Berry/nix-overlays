@@ -394,13 +394,10 @@ in
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "base";
-            rev = "b6ea40197d507005d3970c3fadb60b0cc5f0b234";
-            hash = "sha256-CkGYgDum7mCZrj7+mjLmhRtEsaU+sSu4E80rhBnIVUw=";
-          }
+      builtins.fetchurl {
+        url = "https://github.com/janestreet/base/archive/cb99b8b7c9b1b6bbcccbabc67bb6ca1e085ac804.tar.gz";
+        sha256 = "sha256:0x6bi2427j6a3g4c8qnn6q756f7ls535w3apvhd8xv57jj56snq1";
+      }
       else o.src;
   });
 
@@ -1155,7 +1152,7 @@ in
     version = "0.16.0";
     hash = "00if2f7j9d8igdkj4rck3p74y17j6b233l91mq02drzrxj199qjv";
     meta.description = "OCaml compiler libraries repackaged";
-  } // (if lib.versionAtLeast ocaml.version "5.2" then {
+  } // (if lib.versionAtLeast ocaml.version "5.2" && !isFlambda2 then {
     version = "0.17.0";
     hash = "sha256-QaC6BWrpFblra6X1+TrlK+J3vZxLvLJZ2b0427DiQzM=";
   } else {
@@ -1163,7 +1160,7 @@ in
     hash = "00if2f7j9d8igdkj4rck3p74y17j6b233l91mq02drzrxj199qjv";
   }))).overrideAttrs
     (_: {
-      patches = if isFlambda2 then [ ./flambda2-compiler-libs.patch ] else [ ];
+      patches = if isFlambda2 then [ ./flambda2-patchs/flambda2-compiler-libs.patch ] else [ ];
     });
 
   ocaml-embed-file = janePackage {
@@ -1416,13 +1413,22 @@ in
       else o.src;
   });
 
-  ppx_cold = janePackage {
+  ppx_cold = (janePackage {
     pname = "ppx_cold";
     hash = "sha256-fFZqlcbUS7D+GjnxSjGYckkQtx6ZcPNtOIsr6Rt6D9A=";
     minimalOCamlVersion = "4.14";
     meta.description = "Expands [@cold] into [@inline never][@specialise never][@local never]";
     propagatedBuildInputs = [ base ppxlib ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        builtins.fetchurl {
+          url = "https://github.com/janestreet/ppx_cold/archive/10f78465d1b3c10c5f079c2f31386e24e7d4087c.tar.gz";
+          sha256 = "sha256:04y5fhaqrqp9nw41xrd29d7n5nz7wg3b9h0zbj166f6g1qznnqa1";
+        }
+      else o.src;
+  });
 
   ppx_compare = (janePackage {
     pname = "ppx_compare";
@@ -1434,13 +1440,10 @@ in
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "ppx_compare";
-            rev = "aa309df74530af02877d5adb9699d9448ba34e0b";
-            hash = "sha256-Akp4p/n2qKZ+BVQ99Erym6Suw58OCb3QFb6indzOxKs=";
-          }
+        builtins.fetchurl {
+          url = "https://github.com/janestreet/ppx_compare/archive/525732ca397c6ad0bd3e98a274179e0a927a4b66.tar.gz";
+          sha256 = "sha256:1pbzn4vj3bk5k26j3dyy4mpv63kilrsh4mz5jrpa5jrsxdhm0hgd";
+        }
       else o.src;
   });
 
@@ -1553,8 +1556,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_enumerate";
-            rev = "b1167dbc9dc6f71daa7c592956f0c99f2bfd8ae8";
-            hash = "sha256-+b9SiwcCSZcCa48R6Q0BOmWHPNV5fXQavf29bJEq0Sc=";
+            rev = "2e75a709569d6b0bb6c588c77c08d81d3e416c91";
+            hash = "sha256-HqfbJ92qgNHRaGOI+9BCzEB/I0RmWcAvM5x0kWUDC+A=";
           }
       else o.src;
   });
@@ -1565,20 +1568,16 @@ in
     hash = "sha256-na9n/+shkiHIIUQ2ZitybQ6NNsSS9gWFNAFxij+JNVo=";
     minimalOCamlVersion = "4.14";
     meta.description = "Cram like framework for OCaml";
-    propagatedBuildInputs = [ base ppx_here ppx_inline_test stdio re ppx_compare ];
+    propagatedBuildInputs = if !isFlambda2 then [ base ppx_here ppx_inline_test stdio re ppx_compare ] else [ base ppx_here ppx_inline_test stdio ppxlib ];
     doCheck = false; # test build rules broken
   }).overrideAttrs (o: {
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "ppx_expect";
-            rev = "640e8a8bbedefb5a8c0f72929a645e8003ac9c3e";
-            hash = "sha256-J5ePw8FD2Pft6MBA6Er/4LPvxDVuJpUI19CNI2UJqc4=";
-          }
-      else o.src;
+        builtins.fetchurl {
+          url = "https://github.com/janestreet/ppx_expect/archive/f8bb6bbc4e6afd2ff72a5733a892399333041be1.tar.gz";
+          sha256 = "sha256:19dkn62li9m5jpxxlzyk3i6j0ly9bs8ww0l1h6458dncidkn60xk";
+        } else o.src;
   });
 
   ppx_fields_conv = janePackage {
@@ -1611,8 +1610,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_globalize";
-            rev = "e1748590e4685ecb7a49fb727c5d2d15b073bd17";
-            hash = "sha256-q681BioQSnFBiehKRcUrii3WOvzONz6yqiWt7XMIiIc=";
+            rev = "a381540be758ace2e64f7979335f7080e31e38f2";
+            hash = "sha256-jcKeKnQP/+aEP8EOtZfteA6INn5X++Za8eWdfXYzvc8=";
           }
       else
         o.src;
@@ -1632,8 +1631,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_hash";
-            rev = "b39dac492b40bbc017c387830921d9c1420c12ca";
-            hash = "sha256-TyUn2bc6BWKxtW+jXE7G01TE8RAazVlA571clsRqqAw=";
+            rev = "513308bb171158becfe890a8934b80981bf3a749";
+            hash = "sha256-4sNbjdKk2LIJf1DdOouJMco8aEA/ax3tXQo1GKXrL+0=";
           }
       else o.src;
   });
@@ -1655,14 +1654,22 @@ in
     propagatedBuildInputs = [ ppxlib ];
   };
 
-  ppx_inline_test = janePackage {
+  ppx_inline_test = (janePackage {
     pname = "ppx_inline_test";
     hash = "sha256-pNdrmAlT3MUbuPUcMmCRcUIXv4fZ/o/IofJmnUKf8Cs=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Syntax extension for writing in-line tests in ocaml code";
     propagatedBuildInputs = [ ppxlib time_now ];
     doCheck = false; # test build rules broken
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ppx_inline_test";
+        rev = "98c11048e1579a0249d1f0c23741f8c589c4a5cd";
+        hash = "sha256-zALjBe5gkq4UYzfpSw1BHBaJutDWKZBG2DLkfk0xh0o=";
+      } else o.src;
+  });
 
   ppx_jane = (janePackage {
     pname = "ppx_jane";
@@ -1784,8 +1791,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_optcomp";
-            rev = "f47aea71763e80c02c78b253d33b122726be7e93";
-            hash = "sha256-u3hmnfjJgTuvesMXbAa8slv67Dp+JO2E55/ADnMWojo=";
+            rev = "49a88eede2256956f3e978704ff46a6a8b030b98";
+            hash = "sha256-EROSCFNebPvx8UEEgHZJ3Jxee3cUsK66ulfyZba9acs=";
           }
       else o.src;
   });
@@ -1856,8 +1863,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_sexp_conv";
-            rev = "37ba21167ae36f3c71bfd8d87d385272840ebf9f";
-            hash = "sha256-OB5y8OBs7Hl6g78CPol//Z73c2jBbWjIwy+XopSV8A8=";
+            rev = "74cc5bb98f776df389c4a7bec6f0683d0691f13b";
+            hash = "sha256-6Mi/2ZF95xIEOkRy+iwX4jW0MLkxO/dbTGUPRI5wGkE=";
           }
       else o.src;
   });
@@ -2033,18 +2040,15 @@ in
     pname = "ppxlib_jane";
     hash = "sha256-8NC8CHh3pSdFuRDQCuuhc2xxU+84UAsGFJbbJoKwd0U=";
     meta.description = "Utilities for working with Jane Street AST constructs";
-    propagatedBuildInputs = [ ppxlib ];
+    propagatedBuildInputs = if isFlambda2 then [ ppxlib_ast ] else [ ppxlib ];
   }).overrideAttrs (o: {
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "ppxlib_jane";
-            rev = "5793adbe30e2294d351a8145289cf2a220d0714f";
-            hash = "sha256-KEQMDIN/AMfEbFGlRrFt/tcShuKe9P0QIxA5RdM8Wuo=";
-          }
+        builtins.fetchurl {
+          url = "https://github.com/janestreet/ppxlib_jane/archive/49035695cabaf53ecc7755af121044a674770873.tar.gz";
+          sha256 = "sha256:1gd33fwgzq1ziw0gq6v6v4k8rz40gn5dsqg0cljb3q2hlz20i3zs";
+        }
       else if lib.versionOlder "5.3" ocaml.version then
         fetchFromGitHub
           {
@@ -2252,13 +2256,10 @@ in
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "sexplib0";
-            rev = "450be52c1553c6708b73af50def3cb5732566c50";
-            hash = "sha256-PXKNkuLNwbPV9yLoMKPP1BfOBaR9Sf8e73LNrCy5VmQ=";
-          }
+      builtins.fetchurl {
+        url = "https://github.com/janestreet/sexplib0/archive/c858b0c9b5d12283ba48c94b6d9f070bab0eb733.tar.gz";
+        sha256 = "sha256:0vzk7k0cmafpczi3bww1dnaq3nryi9x8rm3hgd65k6dz4q09v2xr";
+      }
       else o.src;
   });
 

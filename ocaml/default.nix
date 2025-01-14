@@ -1786,7 +1786,7 @@ with oself;
         sha256 = "sha256:1v75vqhr4i8bx0ys9k5v978qndi8l8salj4i9jzy377qlzqxk0z7";
       } else o.src; 
       patches = if isFlambda2 then [ ./flambda2-ocaml-lsp.patch ] else [];
-      buildInputs = o.buildInputs ++ [ base ];
+      buildInputs = o.buildInputs ++ [ base ppx_expect ppx_inline_test ];
 
       postPatch =
         if
@@ -2191,23 +2191,101 @@ with oself;
     then null
     else osuper.ppx_tools;
 
+  ppxlib_ast = buildDunePackage {
+    pname = "ppxlib_ast";
+    version = "0.33.0+jst";
+    src =
+        builtins.fetchurl {
+          url = "https://github.com/ocaml-ppx/ppxlib/archive/1f788de67fd04d7e608376ac26ee57deeeb93fdd.tar.gz";
+          sha256 = "sha256:1m00zhb9a0b0kkabczfscpl9d1rwyvpnqkw4djdg7hk3z10ddbsl";
+        };
+    patches = [
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+ast.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+ast_helper_lite.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+ast_helper_lite.mli.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+supported_version+supported_version.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+versions.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+ast+versions.mli.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+ast_414.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+ast_500.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+ast_999.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+ast_metadata.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+ast_metadata.mli.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+astlib.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+cinaps+astlib_cinaps_helpers.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+config+gen.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+migrate_500_999.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+migrate_999_500.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+parse.mli.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+pprintast.ml.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+pprintast.mli.patch
+     ./flambda2-patchs/ppxlib_ast/ppxlib+astlib+stdlib0.ml.patch
+     ./flambda2-patchs/ppxlib_ast/dune.patch
+    ];
+    postPatch = ''
+      cp ${./flambda2-patchs/ppxlib_ast/cleanup.sh} ./cleanup.sh
+      patchShebangs ./cleanup.sh
+      ./cleanup.sh
+      '';
+    propagatedBuildInputs = [
+      ocaml-compiler-libs
+      ppx_derivers
+      sexplib0
+      stdlib-shims
+    ];
+  };
+
   ppxlib = osuper.ppxlib.overrideAttrs (o: {
     src =
       if isFlambda2
       then
-        fetchFromGitHub
-          {
-            owner = "janestreet";
-            repo = "ppxlib";
-            rev = "e5ae762556a59c25a7356fe2282adbf51f93e25e";
-            hash = "sha256-EB+i0iMt/u/IRp0U/dS2tvQrSjuSxHaPQ3XaPZI6hAs=";
-          }
+        builtins.fetchurl {
+          url = "https://github.com/ocaml-ppx/ppxlib/archive/1f788de67fd04d7e608376ac26ee57deeeb93fdd.tar.gz";
+          sha256 = "sha256:1m00zhb9a0b0kkabczfscpl9d1rwyvpnqkw4djdg7hk3z10ddbsl";
+        }
       else
         builtins.fetchurl {
           url = "https://github.com/ocaml-ppx/ppxlib/releases/download/0.34.0/ppxlib-0.34.0.tbz";
           sha256 = "19v1crxb2nzvkw1s2z3rgrz7v4p90k6qf0vwdgjpm38mb8b9fzfp";
         };
-    propagatedBuildInputs = [
+    patches = if isFlambda2 then [ 
+      ./flambda2-patchs/ppxlib/ppxlib+metaquot+ppxlib_metaquot.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_builder.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_builder.mli.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_builder_intf.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_pattern.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_pattern.mli.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+ast_traverse.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+cinaps+ppxlib_cinaps_helpers.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+code_matcher.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+code_matcher.mli.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+common.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+context_free.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+deriving.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+deriving.mli.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+driver.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+driver.mli.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+gen+gen_ast_builder.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+gen+gen_ast_pattern.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+gen+import.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+location.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+name.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+src+utils.ml.patch
+      ./flambda2-patchs/ppxlib/ppxlib+traverse+ppxlib_traverse.ml.patch
+      ./flambda2-patchs/ppxlib/dune.patch
+      ./flambda2-patchs/ppxlib/location_check.ml.patch
+    ] else [];
+    postPatch = if isFlambda2 then ''
+      rm -rf ast astlib stdppx traverse_builtins
+      '' else '''';
+    propagatedBuildInputs = if isFlambda2 then [
+      ocaml-compiler-libs
+      ppx_derivers
+      sexplib0
+      stdlib-shims
+      ppxlib_ast
+      ppxlib_jane
+    ] else [
       ocaml-compiler-libs
       ppx_derivers
       sexplib0
