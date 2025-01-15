@@ -1671,11 +1671,23 @@ with oself;
     doCheck = false;
   });
 
-  ocamlformat = osuper.ocamlformat.overrideAttrs (_: {
-    inherit (ocamlformat-lib) src;
+  ocamlformat = osuper.ocamlformat.overrideAttrs (o: {
+    inherit ocamlformat-lib;
+    src = if isFlambda2 then fetchFromGitHub {
+      owner = "janestreet";
+      repo = "ocamlformat";
+      rev = "1103e7246de6dac0d3f5a639f5dbe7b6a3530cf8";
+      hash = "sha256-FA1NIpLz+8VqGXSjE0Rr67O45AsWaSoGl1JnAqZMeN8=";
+    } else o.src;
   });
   ocamlformat-lib = osuper.ocamlformat-lib.overrideAttrs (_: {
-    src = builtins.fetchurl {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ocamlformat";
+        rev = "1103e7246de6dac0d3f5a639f5dbe7b6a3530cf8";
+        hash = "sha256-FA1NIpLz+8VqGXSjE0Rr67O45AsWaSoGl1JnAqZMeN8=";
+      } else builtins.fetchurl {
       url = "https://github.com/ocaml-ppx/ocamlformat/releases/download/0.27.0/ocamlformat-0.27.0.tbz";
       sha256 = "05bdhj73im80ci535lymrf7mq7r3xj8bg17f02agj23d0x64igyx";
     };
@@ -1740,6 +1752,7 @@ with oself;
 
     patches =
       if isFlambda2
+        # TODO: get new patch
       then [ ./flambda2-ocamlbuild.patch ]
       else [ ];
 
@@ -1785,6 +1798,7 @@ with oself;
         url = "https://github.com/ocaml/ocaml-lsp/releases/download/1.19.0/lsp-1.19.0.tbz";
         sha256 = "sha256:1v75vqhr4i8bx0ys9k5v978qndi8l8salj4i9jzy377qlzqxk0z7";
       } else o.src; 
+      # TODO: move patch
       patches = if isFlambda2 then [ ./flambda2-ocaml-lsp.patch ] else [];
       buildInputs = o.buildInputs ++ [ base ppx_expect ppx_inline_test ];
 
@@ -2750,9 +2764,13 @@ with oself;
     propagatedBuildInputs = [ uspf ];
   };
 
-  uutf = osuper.uutf.overrideAttrs (_: {
+  uutf = osuper.uutf.overrideAttrs (o: {
     pname = "uutf";
-    patches = if isFlambda2 then [ ./uutf-locals.patch ] else [ ];
+    version = if isFlambda2 then "1.0.3+jst" else o.version;
+    src = if isFlambda2 then builtins.fetchurl {
+      url = "https://erratique.ch/software/uutf/releases/uutf-1.0.3.tbz";
+      sha256 = "sha256:0s05r8ggp1g97zq4rnvbxzj22pv8ld0k5wsdw662jw0y7mhsawl7";
+    } else o.src;
   });
 
   vg = osuper.vg.overrideAttrs (_: {
