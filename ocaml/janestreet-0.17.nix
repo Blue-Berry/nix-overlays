@@ -54,8 +54,8 @@ in
           {
             owner = "janestreet";
             repo = "accessor";
-            rev = "b192a00353115bede0f7f53cff44555ea26f14ba";
-            hash = "sha256-4ZkYX6gkmE9c8wctFcD+wWlycAh2VxZoKd6m6hD5NYA=";
+            rev = "a3b6eb0ce6af5753a06ed51d10bfbeb73cc921dc";
+            hash = "sha256-WvxFrKCxfE37oSBvgAthr4ZAQLVyiEGwh/IWkullDIo=";
           }
       else o.src;
 
@@ -94,8 +94,8 @@ in
           {
             owner = "janestreet";
             repo = "accessor_base";
-            rev = "0fad4ef29e8df2796367722dfaee99412b426c5f";
-            hash = "sha256-C51Gg15HHlTOiJOGoG2yjA6xteOyk3XoKzKpD45j0fI=";
+            rev = "c70d151969c9a1870ad5617ed8ce35387eea7b46";
+            hash = "sha256-4wXPM4anq4C0R2HveXZGRYIOYdF75ZjBWPfJr1G/rvg=";
           }
       else o.src;
   });
@@ -134,8 +134,8 @@ in
           {
             owner = "janestreet";
             repo = "async";
-            rev = "9c6c215cef2c477ae26ab1f68d70c4f52456f920";
-            hash = "sha256-ZLNjO/gDG9Nk9yhcOLRroDX+D1FEWC26U9Ye1VaVhDo=";
+            rev = "ff3b40fcf14fd116d8aaf7d36c41e00ba02aec5a";
+            hash = "sha256-6Whldhj/CDCHp8hHNDGG/TiVnZgRlnRAb7+U5wD1AwQ=";
           }
       else o.src;
   });
@@ -159,8 +159,8 @@ in
           {
             owner = "janestreet";
             repo = "async_durable";
-            rev = "5a5c7035da88cd62d87b63716467a3669ef6597a";
-            hash = "sha256-8lOorr/FU+JSSTYYB8Ak8Rd/amVpqLuVaJa5pQMcpNk=";
+            rev = "a873b79d8b11fb5b5f678f791892ad41a6100782";
+            hash = "sha256-uz1edpcqboO4396DjZMfy8AjaThjxmzaXiFhpVY9dIg=";
           }
       else o.src;
   });
@@ -237,8 +237,8 @@ in
           {
             owner = "janestreet";
             repo = "async_kernel";
-            rev = "364ab5b3c0c70a3b2da1e31b05b89853d59aace5";
-            hash = "sha256-cfXrkT3PG4LciYEP/B5cAgO8WkQ9QhMvtXFxeoqr1ws=";
+            rev = "bfcbcf22f7212335dc33797b9af013e1bb39451e";
+            hash = "sha256-6xt6iOjOYTrWNmXWfsbXVCcg58LtV1xtlRDOFASMKMc=";
           }
       else o.src;
   });
@@ -262,8 +262,8 @@ in
           {
             owner = "janestreet";
             repo = "async_log";
-            rev = "016d58861525058813fcc0be9d7b51b5fd87b910";
-            hash = "sha256-SUHxEtEiDMmWAToT8oUqpN8kCs0pz0yENqVAhhsoQKI=";
+            rev = "a3895b27f84ef637929d38fce8491663a67feb0b";
+            hash = "sha256-3RG1vBQjN29gfA8H24y4feLMZvKOAO685hIstr5qPkE=";
           }
       else o.src;
   });
@@ -285,8 +285,8 @@ in
           {
             owner = "janestreet";
             repo = "async_rpc_kernel";
-            rev = "15f4fa1a6e31052b3a2738dc79dd4c5cb252dfd2";
-            hash = "sha256-XyKvbevz6zm3mncDl85NuvbZ0pekSlddD85k4P26zjE=";
+            rev = "50b59d63a789815008138fb144573de983bfbebe";
+            hash = "sha256-c4pG7726n1Znnd+0yTmHANOFqch2Jj/cQZR8FgWAZww=";
           }
       else o.src;
   });
@@ -336,8 +336,8 @@ in
           {
             owner = "janestreet";
             repo = "async_ssl";
-            rev = "77910a421d99c7ccca173b9ec1b6b1b728ab2f82";
-            hash = "sha256-qqEiH1SPWMBHTpg/O9JoNUyPQ4rf94lKEnQfqOPMaDc=";
+            rev = "fd31f0aa87837d8f2a2d47620d8288d4f6aef4c4";
+            hash = "sha256-FZnlavS+rodtAv/EIOJpZIoV55K/3CuaCpHU+YHufsU=";
           }
       else o.src;
   });
@@ -362,8 +362,8 @@ in
           {
             owner = "janestreet";
             repo = "async_unix";
-            rev = "6cc10173fff7a87c9f97839f70857ebc37cfa1dc";
-            hash = "sha256-VcEbD/QqCTOSp8uqIb8usDWdEJHJWM+tmJTMFjMdshU=";
+            rev = "6bfce7083b561be548114ceb5d46f45bb321765b";
+            hash = "sha256-W2FouYTA2Lv2c0o1DKt63goHheCwJa85E5p5b+cZiwU=";
           }
       else o.src;
   });
@@ -394,11 +394,15 @@ in
     src =
       if isFlambda2
       then
-      builtins.fetchurl {
-        url = "https://github.com/janestreet/base/archive/cb99b8b7c9b1b6bbcccbabc67bb6ca1e085ac804.tar.gz";
-        sha256 = "sha256:0x6bi2427j6a3g4c8qnn6q756f7ls535w3apvhd8xv57jj56snq1";
-      }
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "base";
+            rev = "cb99b8b7c9b1b6bbcccbabc67bb6ca1e085ac804";
+            hash = "sha256-ddWowkljYuGS6r28iaOPO61qD3gaPJY8iLHnTI2qazU=";
+          }
       else o.src;
+      version = if isFlambda2 then "0.18" else o.version;
   });
 
   base_bigstring = (janePackage {
@@ -414,8 +418,8 @@ in
           {
             owner = "janestreet";
             repo = "base_bigstring";
-            rev = "e0a078cd2065f20a215276520307603f9ad1e2cf";
-            hash = "sha256-LSf2j9LprBnYijyO7mHnJWovD9f9ifhOKCYiRgA+Prs=";
+            rev = "96be408e1cc418d94c6872f5a61b86cf8a080876";
+            hash = "sha256-C3OHQV4pwZT/LM9RhE0HhYUoidqT7vo8Pt1Jyeq1PUg=";
           }
       else o.src;
   });
@@ -434,8 +438,8 @@ in
           {
             owner = "janestreet";
             repo = "base_quickcheck";
-            rev = "ca81f8736b682f00af3e843e878ee85027d50bff";
-            hash = "sha256-aY5G69KLo+srFHEGq0l53hXatnmvE/55eEmArgv4sbA=";
+            rev = "8283210a59dc72077c08735b1bd9eca9e18c3a44";
+            hash = "sha256-9jTbrXV18oF235DMftrbn1pG4AMVkzkB9brzDGInXJI=";
           }
       else o.src;
   });
@@ -493,8 +497,8 @@ in
           {
             owner = "janestreet";
             repo = "bin_prot";
-            rev = "c8a7ce450fa20f240e9705673f29098fafb79b10";
-            hash = "sha256-3RIa106qsseBtqGiuWYm9lYnLrzadRIJenoY9G2sQb8=";
+            rev = "7d76c523748e227d2177e7cf561b59976cfc10b5";
+            hash = "sha256-ckVy+aUOnCNM36soN2NTcfocpuoupWKDGMzySIJo9CU=";
           }
       else o.src;
   });
@@ -620,10 +624,11 @@ in
           {
             owner = "janestreet";
             repo = "core";
-            rev = "d8071a5d100759f5cf7b4c098112e139d43eb3df";
-            hash = "sha256-EZK7tpG5oP0OVjAzhcFwj/lFX6hJUh8KxFxJfV9/L8s=";
+            rev = "7e85de4ccd2dce842d8e5ae88b5ce80fe9f37474";
+            hash = "sha256-AdrrfffVCCgnQlLOcLdZ+oxHINU1r0HnNma1qwL/Y9w=";
           }
       else o.src;
+      version = if isFlambda2 then "0.18" else o.version;
   });
 
   core_bench = janePackage {
@@ -655,8 +660,8 @@ in
           {
             owner = "janestreet";
             repo = "core_kernel";
-            rev = "8c10b1c9653d2598cba5da65fe4003766461e6da";
-            hash = "sha256-n2C4PVmOfVB91gkujNkpL8wNiYEx9egaCElyF52KOWQ=";
+            rev = "8fffdae11756bc59878e70d5f6b5703d9de6d51f";
+            hash = "sha256-NIl4puM/lmsgZO/zQuooHobQJFeJ2f/DHe+xiq896TI=";
           }
       else o.src;
   });
@@ -694,8 +699,8 @@ in
           {
             owner = "janestreet";
             repo = "core_unix";
-            rev = "e8efb05a79b22646dffafc66ac3df42873e3b518";
-            hash = "sha256-FnBemRcIVw0NUI3grvtWYxocyLmTilHr/6YIsB3V1XQ=";
+            rev = "17d74b1413b05820c4c9a79bfaa10f9d5d2f070c";
+            hash = "sha256-n8TvrQZBSH7MV6l56nfSPcp0jItM/q9jZhYuFfCJ6ic=";
           }
       else o.src;
   });
@@ -773,19 +778,31 @@ in
           {
             owner = "janestreet";
             repo = "expect_test_helpers_core";
-            rev = "6aea0cabc965bfc08d04c8efe8fca81b72173162";
-            hash = "sha256-k0DZz6DFmmvN8x4H/uCiyL4JztJ3OEfKDtx5bHu/QoU=";
+            rev = "d0eff7f87f98034d3ffe47b6a5489cc326298e87";
+            hash = "sha256-067g/dUW8C97LyNN2ES0P5bxO4tGHxBR94ISQXjdExM=";
           }
       else o.src;
   });
 
-  fieldslib = janePackage {
+  fieldslib = (janePackage {
     pname = "fieldslib";
     hash = "sha256-Zfnc32SghjZYTlnSdo6JPm4WCb7BPVjrWNDfeMZHaiU=";
     minimalOCamlVersion = "4.14";
     meta.description = "Syntax extension to define first class values representing record fields, to get and set record fields, iterate and fold over all fields of a record and create new record values";
     propagatedBuildInputs = [ base ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "fieldslib";
+            rev = "e934ed7cd0503eb0ed13933c1f1e7e4cd4d4088b";
+            hash = "sha256-Of6h5Fv7WoliUT7U0K63WrA5p1t05T6lWH3xMgeBOlg=";
+          }
+      else o.src;
+  });
 
   file_path = janePackage {
     pname = "file_path";
@@ -948,8 +965,8 @@ in
           {
             owner = "janestreet";
             repo = "int_repr";
-            rev = "898d314e0ac9aac93d7a3fd9baa1e345a5e37810";
-            hash = "sha256-nw/H1WSEH3Xx+FEsP2/yuX6+0s1GaDNRlrbL4R/lKLA=";
+            rev = "284e6528f3c5edbc51b292a35b8af27f5496e18d";
+            hash = "sha256-5y/8JSZKqj8QWdOobaMuJMddcxEi+jB/N3C33upgiFM=";
           }
       else o.src;
   });
@@ -1183,8 +1200,8 @@ in
           {
             owner = "janestreet";
             repo = "ocaml_intrinsics";
-            rev = "9dc4e031e33de559385ca2e4c13f7f19ba804dcc";
-            hash = "sha256-OpyjX/RDbBrUu5VAqo2dV9sSaskQyOVKiftJKLRuS1I=";
+            rev = "bfa36b4b90f0c1d0613fe187be9a52943fd1bb61";
+            hash = "sha256-kk5KP3zaAV9FLCyBwI24EJI25figFNh6/e+TSvbKTWw=";
           }
       else o.src;
 
@@ -1203,8 +1220,8 @@ in
           {
             owner = "janestreet";
             repo = "ocaml_intrinsics_kernel";
-            rev = "997a5da542ade9efe0ff743e02ed21f291cde1ed";
-            hash = "sha256-lHkX/6G5Hf5EbfvyvxK+B19jhLNOWDYVv+AN5+kOKUc=";
+            rev = "d940d3ac58ea421f488a89990f619c3fb042fef1";
+            hash = "sha256-n8Uw5nA5frDMj9xIC0m9/Zcuzs8qEzk2y6DwcpITO8U=";
           }
       else o.src;
   });
@@ -1261,13 +1278,25 @@ in
     propagatedBuildInputs = [ pam core ppx_jane ];
   };
 
-  parsexp = janePackage {
+  parsexp = (janePackage {
     pname = "parsexp";
     hash = "sha256-iKrZ6XDLM6eRl7obaniDKK6X8R7Kxry6HD7OQBwh3NU=";
     minimalOCamlVersion = "4.14";
     meta.description = "S-expression parsing library";
     propagatedBuildInputs = [ sexplib0 ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "parsexp";
+            rev = "14af9ab942251783de6abb20e0d0e0eec6080062";
+            hash = "sha256-MAbeTjdN0MyITQjfkByT2ZkYjq7Rhhu27yDeF6oN2FI=";
+          }
+      else o.src;
+  });
 
   parsexp_io = janePackage {
     pname = "parsexp_io";
@@ -1356,20 +1385,43 @@ in
     propagatedBuildInputs = [ async async_ssl core core_kernel ppx_jane postgresql ];
   };
 
-  ppx_accessor = janePackage {
+  ppx_accessor = (janePackage {
     pname = "ppx_accessor";
     hash = "sha256-vK6lA0J98bDGtVthIdU76ckzH+rpNUD1cQ3vMzHy0Iw=";
     meta.description = "[@@deriving] plugin to generate accessors for use with the Accessor libraries";
     propagatedBuildInputs = [ accessor ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_accessor";
+            rev = "147fbf91ea095f68d1baeecad85e089ffc0bfe00";
+            hash = "sha256-thRaPstIQJfrAeK9a95FPrbgZ/A+ec1sItN4Fu22Gnk=";
+          }
+      else o.src;
+      version = if isFlambda2 then "0.18" else o.version;
+  });
 
-  ppx_assert = janePackage {
+  ppx_assert = (janePackage {
     pname = "ppx_assert";
     hash = "sha256-o9ywdFH6+qoJ3eWb29/gGlkWkHDMuBx626mNxrT1D8A=";
     minimalOCamlVersion = "4.14";
     meta.description = "Assert-like extension nodes that raise useful errors on failure";
     propagatedBuildInputs = [ ppx_cold ppx_compare ppx_here ppx_sexp_conv ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+            fetchFromGitHub {
+              owner = "janestreet";
+              repo = "ppx_assert";
+              rev = "32beffcc680f480c2b1bb757a68933becae55729";
+              hash = "sha256-7YmexQ7819tX5UJIBhwx0+UGio2a8d4mSkqNWHNDJ9Q=";
+            }
+      else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
+  });
 
   ppx_base = janePackage {
     pname = "ppx_base";
@@ -1384,13 +1436,25 @@ in
     ];
   };
 
-  ppx_bench = janePackage {
+  ppx_bench = (janePackage {
     pname = "ppx_bench";
     hash = "sha256-y4nL/wwjJUL2Fa7Ne0f7SR5flCjT1ra9M1uBHOUZWCg=";
     minimalOCamlVersion = "4.14";
     meta.description = "Syntax extension for writing in-line benchmarks in ocaml code";
     propagatedBuildInputs = [ ppx_inline_test ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+            fetchFromGitHub {
+              owner = "janestreet";
+              repo = "ppx_bench";
+              rev = "fe8e9c28354e354140b9f3e546f35ff959a0a087";
+              hash = "sha256-SLHDDh+LHVjrVGaXYvI1fdBg6JyY/AL3a+tGsMIWu9I=";
+            }
+      else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ 
+        ppxlib
+      ] else o.propagatedBuildInputs;
+  });
 
   ppx_bin_prot = (janePackage {
     pname = "ppx_bin_prot";
@@ -1407,8 +1471,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_bin_prot";
-            rev = "9427476a1043deaaf733da03572427694a566d83";
-            hash = "sha256-npyGcr+kTyukrTl6UmLieT2hOHKXg1lfZeg2eRg1UqA=";
+            rev = "405f361a73192bea9e36aee24873a39acd64a177";
+            hash = "sha256-rU54LEv8A+GKc7gn+s/AjYYTEWMGV0BULPX8bBt5w4A=";
           }
       else o.src;
   });
@@ -1423,9 +1487,12 @@ in
     src =
       if isFlambda2
       then
-        builtins.fetchurl {
-          url = "https://github.com/janestreet/ppx_cold/archive/10f78465d1b3c10c5f079c2f31386e24e7d4087c.tar.gz";
-          sha256 = "sha256:04y5fhaqrqp9nw41xrd29d7n5nz7wg3b9h0zbj166f6g1qznnqa1";
+      fetchFromGitHub
+        {
+          owner = "janestreet";
+          repo = "ppx_cold";
+          rev = "10f78465d1b3c10c5f079c2f31386e24e7d4087c";
+          hash = "sha256-C+yt9tXl+jhCa8LgZXrTbH3yiUzJz5IwqQJwi+b27ec=";
         }
       else o.src;
   });
@@ -1440,10 +1507,13 @@ in
     src =
       if isFlambda2
       then
-        builtins.fetchurl {
-          url = "https://github.com/janestreet/ppx_compare/archive/525732ca397c6ad0bd3e98a274179e0a927a4b66.tar.gz";
-          sha256 = "sha256:1pbzn4vj3bk5k26j3dyy4mpv63kilrsh4mz5jrpa5jrsxdhm0hgd";
-        }
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_compare";
+            rev = "525732ca397c6ad0bd3e98a274179e0a927a4b66";
+            hash = "sha256-OZCUcVRIShmdw+0enrAKxklHZWGvdAuKX6MF6ePLt8M=";
+          }
       else o.src;
   });
 
@@ -1463,13 +1533,24 @@ in
     propagatedBuildInputs = [ base csvfields ppx_conv_func ppx_fields_conv ];
   };
 
-  ppx_custom_printf = janePackage {
+  ppx_custom_printf = (janePackage {
     pname = "ppx_custom_printf";
     hash = "sha256-DFgDb9MIFCqglYoMgPUN0zEaxkr7VJAXgLxq1yp8ap4=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Printf-style format-strings for user-defined string conversion";
     propagatedBuildInputs = [ ppx_sexp_conv ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+            fetchFromGitHub {
+              owner = "janestreet";
+              repo = "ppx_custom_printf";
+              rev = "eea1fca4579fb3b86333041a2259fc4bd775de71";
+              hash = "sha256-h6xRdPWAN+EZGjyvTHWJXLgTr0HrqupOtX3ABEy7q8U=";
+            }
+      else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
+  });
+
 
   ppx_css = janePackage {
     pname = "ppx_css";
@@ -1526,8 +1607,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_diff";
-            rev = "4a766274acab51e0e85be19161d1f896597230ce";
-            hash = "sha256-vT5Xt9Z3AB2DiajRD5corrwRC3N1HkawOEq/30Ff234=";
+            rev = "e3ee71142f8ac279a0c489370bc3055d6328a006";
+            hash = "sha256-rfiOj7CvBq/VrQ5XVwtPh9XHOm61bA/+fSA7h0pzLK4=";
           }
       else o.src;
   });
@@ -1574,19 +1655,34 @@ in
     src =
       if isFlambda2
       then
-        builtins.fetchurl {
-          url = "https://github.com/janestreet/ppx_expect/archive/f8bb6bbc4e6afd2ff72a5733a892399333041be1.tar.gz";
-          sha256 = "sha256:19dkn62li9m5jpxxlzyk3i6j0ly9bs8ww0l1h6458dncidkn60xk";
-        } else o.src;
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ppx_expect";
+        rev = "f8bb6bbc4e6afd2ff72a5733a892399333041be1";
+        hash = "sha256-bfsLFNEmuClNeRogqWKttGqzdWs0ChnmiUSBaZWA7ts=";
+      } else o.src;
   });
 
-  ppx_fields_conv = janePackage {
+  ppx_fields_conv = (janePackage {
     pname = "ppx_fields_conv";
     hash = "sha256-FA7hDgqJMJ2obsVwzwaGnNLPvjP0SkTec8Nh3znuNDQ=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Generation of accessor and iteration functions for ocaml records";
     propagatedBuildInputs = [ fieldslib ppxlib ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_fields_conv";
+            rev = "bf5d8a343159498961aef77ac407973dc89c0737";  
+            hash = "sha256-6tpbx6j8kt0vyJCUYcu+7oLbK4HaK+4+FGbG917Nk7I=";
+          }
+      else o.src;
+      version = if isFlambda2 then "0.18" else o.version;
+  });
 
   ppx_fixed_literal = janePackage {
     pname = "ppx_fixed_literal";
@@ -1637,14 +1733,23 @@ in
       else o.src;
   });
 
-  ppx_here = janePackage {
+  ppx_here = (janePackage {
     pname = "ppx_here";
     hash = "sha256-ybwOcv82uDRPTlfaQgaBJHVq6xBxIRUj07CXP131JsM=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Expands [%here] into its location";
     propagatedBuildInputs = [ base ppxlib ];
     doCheck = false; # test build rules broken
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+            fetchFromGitHub {
+              owner = "janestreet";
+              repo = "ppx_here";
+              rev = "00f4866e254fee482762c71dd6875d27f77cb80d";
+              hash = "sha256-VNM1wuMRNd4VhwjHK1J7TPwqKtRGkBY9UPpJZIrFzBQ=";
+            }
+      else o.src;
+  });
 
   ppx_ignore_instrumentation = janePackage {
     pname = "ppx_ignore_instrumentation";
@@ -1691,9 +1796,9 @@ in
       ppx_stable
       ppx_string
       ppx_string_conv
+      ppx_tydi
       ppx_typerep_conv
       ppx_variants_conv
-      ppx_tydi
     ];
   }).overrideAttrs (o: {
     src =
@@ -1703,11 +1808,29 @@ in
           {
             owner = "janestreet";
             repo = "ppx_jane";
-            rev = "b699ffd25f2de209bb8b2d2158c4c9ee8b3d434a";
-            hash = "sha256-WRaT6huQaii0F00Ar77/6mmY2t3Y5g2EnXs/v2DVAMg=";
+            rev = "714cbefd89d4ee2589491c7b3ea465673c76a13d";
+            hash = "sha256-V2JwEo9EVNeI9r/he8dLtJV13GBAyfMitB9LgiecY4o=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ 
+        ppx_assert
+        ppx_base
+        ppx_bench
+        ppx_custom_printf
+        ppx_fields_conv
+        ppx_here
+        ppx_inline_test
+        ppx_let
+        ppx_optcomp
+        ppx_sexp_message
+        ppx_sexp_value
+        ppx_shorthand
+        ppx_stable_witness
+        ppx_template
+        ppx_typed_fields
+      ] else o.propagatedBuildInputs;
   });
+
 
   ppx_jsonaf_conv = janePackage {
     pname = "ppx_jsonaf_conv";
@@ -1740,13 +1863,14 @@ in
           {
             owner = "janestreet";
             repo = "ppx_let";
-            rev = "56a954cb7c19df5dee61b43efab12132ecf957e4";
-            hash = "sha256-nkd84j0Jw5MvNVcQi95ZdFFzb7IBaA25Eg9gpSwVxOE=";
+            rev = "da8e66e860bc9082aeb8406c5f329a3f6baf0e17";
+            hash = "sha256-eu7zzkt7eCugPMNbS8idfJytWjqRR61G7thKeUZMCl0=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
   });
 
-  ppx_log = janePackage {
+  ppx_log = (janePackage {
     pname = "ppx_log";
     hash = "sha256-llnjWeJH4eg5WtegILRxdwO3RWGWTFeCIKr6EbrUDI4=";
     minimalOCamlVersion = "4.08.0";
@@ -1767,7 +1891,17 @@ in
       sexplib
     ];
     doCheck = false;
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+          fetchFromGitHub {
+            owner = "janestreet";
+            repo = "ppx_log";
+            rev = "32d9e41ba63baba6516fb53b55204208856eb2c7";
+            hash = "sha256-RIrTn+NZ68AAyeC/YrxA6edJVoYgRTCELaXlSOEDl5Y=";
+            }
+        else o.src;
+        version = if isFlambda2 then "0.18" else o.version;
+  });
 
   ppx_module_timer = janePackage {
     pname = "ppx_module_timer";
@@ -1797,13 +1931,25 @@ in
       else o.src;
   });
 
-  ppx_optional = janePackage {
+  ppx_optional = (janePackage {
     pname = "ppx_optional";
     hash = "sha256-SHw2zh6lG1N9zWF2b3VWeYzRHUx4jUxyOYgHd2/N9wE=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Pattern matching on flat options";
     propagatedBuildInputs = [ base ppxlib ppxlib_jane ];
-  };
+  }).overrideAttrs (o:{
+    src =
+      if isFlambda2
+        then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_optional";
+            rev = "6c8879c6c6964b0b3cb0b148c800c8f96e286221";
+            hash = "sha256-hLee9rQU8JUgNJ3DXQbz894U3E4qGdaDtfJ/Q1Lw9Yg=";
+          } else o.src;
+    version = if isFlambda2 then "0.18" else o.version;
+  });
 
   ppx_pattern_bind = janePackage {
     pname = "ppx_pattern_bind";
@@ -1869,21 +2015,48 @@ in
       else o.src;
   });
 
-  ppx_sexp_message = janePackage {
+  ppx_sexp_message = (janePackage {
     pname = "ppx_sexp_message";
     hash = "sha256-SNgTvsTUgFzjqHpyIYk4YuA4c5MbA9e77YUEsDaKTeA=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "A ppx rewriter for easy construction of s-expressions";
     propagatedBuildInputs = [ ppx_here ppx_sexp_conv ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_sexp_message";
+            rev = "0823c4ed3dcf041b2b74acdfd9f0fe142a47b2ca";
+            hash = "sha256-Su4SPuLIsL+l/8U1dt7v/i6S9MNRLVV7SvxP6xtJoT8=";
+          }
+      else o.src;
+    version = if isFlambda2 then "0.18" else o.version;
+  });
 
-  ppx_sexp_value = janePackage {
+  ppx_sexp_value = (janePackage {
     pname = "ppx_sexp_value";
     hash = "sha256-f96DLNFI+s3TKsOj01i6xUoM9L+qRgAXbbepNis397I=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "A ppx rewriter that simplifies building s-expressions from ocaml values";
     propagatedBuildInputs = [ ppx_here ppx_sexp_conv ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+        then
+          fetchFromGitHub
+            {
+              owner = "janestreet";
+              repo = "ppx_sexp_value";
+              rev = "ed7f78632a6d975a47bbc31a62322d9380c0a30d";
+              hash = "sha256-pV3Ma5L39x5MmNlIY4MStQEQPZ93AbrQ2WkUJDQHFhA=";
+            } 
+        else o.src;
+    version = if isFlambda2 then "0.18" else o.version;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
+  });
 
   ppx_stable = (janePackage {
     pname = "ppx_stable";
@@ -1899,8 +2072,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_stable";
-            rev = "006955a00a247585f21cb9446507c24b47a14cec";
-            hash = "sha256-pfRxOBJOYb5t1BsZfiZNHfFvpZjwCe71xiXIlAahQMo=";
+            rev = "0d28209ee83e97fef7170f242942042ae1d79235";
+            hash = "sha256-ZbNAlYJqbJbGblQ/tkSgQRMmQa3XNPqaNi+3QDoWgF4=";
           }
       else o.src;
   });
@@ -1924,8 +2097,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_stable_witness";
-            rev = "cec735a627ca91354c32e0f3965fab734ae8cbc4";
-            hash = "sha256-/QbyG1LHr9L82QhUcYFm8KTgUo6pkLr/NX+LjSvcPYw=";
+            rev = "8b3cfaca6de294faaa998ef79accb52232090e52";
+            hash = "sha256-LDqnhzU+YuN/JrOdba0Orym1Z2EeZh85BmitswHTRDQ=";
           }
       else o.src;
   });
@@ -1951,8 +2124,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_string_conv";
-            rev = "6e6f95e39f529017e83f9eee33e6270e09f877e7";
-            hash = "sha256-sIlOv50+1kZBN3jv2oH3yJvFMsr5S8pFTuP9XjkK830=";
+            rev = "9b2110388e52d788d7aff427c17853368493cf2e";
+            hash = "sha256-dA3TxINhO4mGrDtqBpXJBVZRCVsZ0NCMH12YaFwG4R4=";
           }
       else o.src;
   });
@@ -1965,12 +2138,23 @@ in
     propagatedBuildInputs = [ base ppxlib ];
   };
 
-  ppx_typed_fields = janePackage {
+  ppx_typed_fields = (janePackage {
     pname = "ppx_typed_fields";
     hash = "sha256-aTPEBBc1zniZkEmzubGkU064bwGnefBOjVDqTdPm2w8=";
     meta.description = "GADT-based field accessors and utilities";
     propagatedBuildInputs = [ core ppx_jane ppxlib ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+          fetchFromGitHub {
+            owner = "janestreet";
+            repo = "ppx_typed_fields";
+            rev = "59f5894835d9fe5f7328e10623c3b8b83b1caf1e";
+            hash = "sha256-Pj8cV5kUUn60VXwL+3s28eO/C6SanHa131TWVk5wx9g=";
+            }
+          else o.src;
+    version = if isFlambda2 then "0.18" else o.version;
+    propagatedBuildInputs = if isFlambda2 then [ base ppx_base ppx_compare ppx_enumerate ppx_pipebang ppx_sexp_conv ppx_sexp_message ppx_string ppxlib_jane sexplib sexplib0 univ_map ppx_template ppx_shorthand ] else o.propagatedBuildInputs;
+  });
 
   ppx_typerep_conv = (janePackage {
     pname = "ppx_typerep_conv";
@@ -1986,8 +2170,8 @@ in
           {
             owner = "janestreet";
             repo = "ppx_typerep_conv";
-            rev = "31c6ede608ccdde8df06922e3e3b50c5fd7e5820";
-            hash = "sha256-2PQwnxg0ThR/mzn3wOe1IP2ovEOvZ3pqq3ITsp2bnWw=";
+            rev = "76611174217b723ccded4ae98995ac8c50fb2bdb";
+            hash = "sha256-m/Kf7Yuh/uzaQK9Xn6Y6AjccUABLhb8pGv+NCgCyjuc=";
           }
       else o.src;
   });
@@ -2006,10 +2190,11 @@ in
           {
             owner = "janestreet";
             repo = "ppx_variants_conv";
-            rev = "ace387c672335639f37934d349b88840c9946789";
-            hash = "sha256-e0e6JKTTJS4alLxQFb+U0pbl4FMkYeLSK+YtLHdD2fc=";
+            rev = "c14128aa5374a7d45979047417daa85dc8e3d605";
+            hash = "sha256-BCYukgK4mpGdN1OlOhCRlKK4sMWt5cq6DeWZZ6m3SUI=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
   });
 
   ppx_xml_conv = janePackage {
@@ -2045,9 +2230,12 @@ in
     src =
       if isFlambda2
       then
-        builtins.fetchurl {
-          url = "https://github.com/janestreet/ppxlib_jane/archive/49035695cabaf53ecc7755af121044a674770873.tar.gz";
-          sha256 = "sha256:1gd33fwgzq1ziw0gq6v6v4k8rz40gn5dsqg0cljb3q2hlz20i3zs";
+      fetchFromGitHub
+        {
+          owner = "janestreet";
+          repo = "ppxlib_jane";
+          rev = "49035695cabaf53ecc7755af121044a674770873";
+          hash = "sha256-iCkK0iXJpiJ5hhdASdVovaNgz/ZUO9XSTGSngY69DlY=";
         }
       else if lib.versionOlder "5.3" ocaml.version then
         fetchFromGitHub
@@ -2256,10 +2444,13 @@ in
     src =
       if isFlambda2
       then
-      builtins.fetchurl {
-        url = "https://github.com/janestreet/sexplib0/archive/c858b0c9b5d12283ba48c94b6d9f070bab0eb733.tar.gz";
-        sha256 = "sha256:0vzk7k0cmafpczi3bww1dnaq3nryi9x8rm3hgd65k6dz4q09v2xr";
-      }
+      fetchFromGitHub
+        {
+          owner = "janestreet";
+          repo = "sexplib0";
+          rev = "c858b0c9b5d12283ba48c94b6d9f070bab0eb733";
+          hash = "sha256-tAoZNKsmhjQCVs0oGVhz/83whDS1AI8AExqX46Hw7kM=";
+        }
       else o.src;
   });
 
@@ -2277,10 +2468,11 @@ in
           {
             owner = "janestreet";
             repo = "sexplib";
-            rev = "a9fca79eb16dbad7c23d2d7adc4f20a3cdca8714";
-            hash = "sha256-qnLZsbnxYen0UdJQUqlWLwucb++tC6QskURgv2QAmg0=";
+            rev = "1157920362dfd3ff679dc6ea0bd0031199bd3abf";
+            hash = "sha256-ZS3zeN6UkQ2ClwYXQXlr/F8HhE0Iz3kAwm2qcNe0+QQ=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ sexplib0 ] else o.propagatedBuildInputs;
   });
 
   shell = janePackage {
@@ -2339,13 +2531,26 @@ in
     propagatedBuildInputs = [ base ppx_compare ppx_hash ];
   };
 
-  stdio = janePackage {
+  stdio = (janePackage {
     pname = "stdio";
     hash = "sha256-N4VMUq6zWdYiJarVECSadxnoXJKh6AsIIaChmHFSbdA=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Standard IO library for OCaml";
     propagatedBuildInputs = [ base ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "stdio";
+            rev = "95902a362e4b1df6d716d5dc2cdba19225a09630";
+            hash = "sha256-tnzQF6HdU1N5WuMFEfp/LzN4mJrLpNBKByGxe4Okq4k=";
+          }
+      else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ sexplib0 ] else o.propagatedBuildInputs;
+  });
 
   stored_reversed = janePackage {
     pname = "stored_reversed";
@@ -2367,10 +2572,12 @@ in
           {
             owner = "janestreet";
             repo = "textutils";
-            rev = "177a4e7533f8116d62366a33e3a918948f838878";
-            hash = "sha256-NNgDQ4TruuJ59gBTHBLXXGe1jGdYIr0SegMWyqiMOUU=";
+            rev = "08dcde66c8d2643c4adf4e2c6997ef268868b1aa";
+            hash = "sha256-I9gASypPejRSGxt+z2Q6YtC/tpHsYc7xr2JuXux1mtc=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then [ core core_kernel core_unix ppx_jane ] else o.propagatedBuildInputs;
+      version = if isFlambda2 then "0.18" else o.version;
   });
 
   textutils_kernel = (janePackage {
@@ -2386,10 +2593,11 @@ in
           {
             owner = "janestreet";
             repo = "textutils_kernel";
-            rev = "b3a651f25a963e2ed93dd83b678815b9e46a90af";
-            hash = "sha256-lDrYv1tB/lqfbhY/2YE4bPbynxDTUkwgKch1DedH9Vs=";
+            rev = "36abfb357eef29a5ea669d0fef95c1577564768a";
+            hash = "sha256-gijyyrvyQu62uaptILwzHHgyglS3dpDBwnhNx0uzOG4=";
           }
       else o.src;
+      version = if isFlambda2 then "0.18" else o.version;
   });
 
   tilde_f = janePackage {
@@ -2491,8 +2699,8 @@ in
           {
             owner = "janestreet";
             repo = "uopt";
-            rev = "27606a53f72d85159fff6b9d4277ab8778a5f1cd";
-            hash = "sha256-6X4NBQ+OF6Fh74y9cmIN10iF/FXP3vp+D5ozAO8ml14=";
+            rev = "ed69a89362ed6f354f12686eaf511e4290f9e1f2";
+            hash = "sha256-+BIN2VIzJ4GvF7Ce6AZ9XF6wHJRJ/w64ZR14cnyhuBg=";
           }
       else o.src;
   });
@@ -2505,13 +2713,25 @@ in
     propagatedBuildInputs = [ core ppx_jane ];
   };
 
-  variantslib = janePackage {
+  variantslib = (janePackage {
     pname = "variantslib";
     hash = "sha256-v/p718POQlFsB7N7WmMCDnmQDB2sP1263pSQIuvlLt8=";
     minimalOCamlVersion = "4.04.2";
     meta.description = "Part of Jane Street's Core library";
     propagatedBuildInputs = [ base ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "variantslib";
+            rev = "5f93256902030fe1e7d4520ea2c68f5c677db153";
+            hash = "sha256-jVtnCqUGFVPRK+0P/uJLorCDI6Ae/nroyvtTleqWjVA=";
+          }
+      else o.src;
+  });
 
   vcaml = janePackage {
     pname = "vcaml";

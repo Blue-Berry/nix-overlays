@@ -570,9 +570,9 @@ with oself;
 
   cryptokit = (osuper.cryptokit.override { zlib = zlib-oc; });
 
-  cstruct = osuper.cstruct.overrideAttrs (_: {
-    doCheck = !isFlambda2;
-  });
+  # cstruct = osuper.cstruct.overrideAttrs (_: {
+  #   doCheck = !isFlambda2;
+  # });
 
   ctypes = osuper.ctypes.overrideAttrs (o: {
     nativeBuildInputs = o.nativeBuildInputs ++ [ pkg-config ];
@@ -1800,7 +1800,7 @@ with oself;
       } else o.src; 
       # TODO: move patch
       patches = if isFlambda2 then [ ./flambda2-ocaml-lsp.patch ] else [];
-      buildInputs = o.buildInputs ++ [ base ppx_expect ppx_inline_test ];
+      buildInputs = if isFlambda2 then o.buildInputs ++ [ base ppx_expect ppx_inline_test cinaps uutf ppx_yojson_conv_lib ] else o.buildInputs ++ [ base ppx_expect ppx_inline_test ];
 
       postPatch =
         if
@@ -2200,6 +2200,46 @@ with oself;
     propagatedBuildInputs = [ ppxlib ];
   };
 
+  ppx_shorthand = (buildDunePackage {
+    pname = "ppx_shorthand";
+    version = "0.18";
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "ppx_shorthand";
+      rev = "316b701da9ae249c7bc240bd77738ca0e5f8b9cb";
+      hash = "sha256-g8A3JIfwia4Fkd2ZQTPOOjtZYJ6qXTHrwLybI+OkNk8=";
+    };
+    propagatedBuildInputs = [ base ppxlib ];
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ppx_shorthand";
+        rev = "313da0e9d01178a9e1d2de2194645cfdb379a77c";
+        hash = "sha256-/gxSDqjXmkbzaTqe1n+yY0S6oIPHCh4u0IIkfTVJx7g=";
+      } else o.src;
+  });
+
+  ppx_template = (buildDunePackage {
+    pname = "ppx_template";
+    version = "0.18";
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "ppx_template";
+      rev = "34eefb4d95cc74fb6c78551e204555c8d3e2b74a";
+      hash = "sha256-QF2+QemIblAYMIyJcIT70BYu7MaPbKfZ9WceRx2V+lE=";
+    };
+    propagatedBuildInputs = [ base ppxlib_jane ppxlib ];
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ppx_template";
+        rev = "f74e5c580efa5055a589826e831cd9a082a2feb2";
+        hash = "sha256-h+xYYXhYqblPFrKY2VH51uEvXCO0/j3pk5NoOS9SQ94=";
+      } else o.src;
+  });
+
   ppx_tools =
     if lib.versionOlder "5.2" ocaml.version
     then null
@@ -2246,6 +2286,8 @@ with oself;
       ppx_derivers
       sexplib0
       stdlib-shims
+      re
+      cinaps
     ];
   };
 
@@ -2292,19 +2334,14 @@ with oself;
     postPatch = if isFlambda2 then ''
       rm -rf ast astlib stdppx traverse_builtins
       '' else '''';
-    propagatedBuildInputs = if isFlambda2 then [
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [
       ocaml-compiler-libs
       ppx_derivers
       sexplib0
       stdlib-shims
       ppxlib_ast
       ppxlib_jane
-    ] else [
-      ocaml-compiler-libs
-      ppx_derivers
-      sexplib0
-      stdlib-shims
-    ];
+    ] else o.propagatedBuildInputs;
   });
 
   ppxlib-tools = buildDunePackage {
@@ -2708,6 +2745,26 @@ with oself;
   tyxml-ppx = callPackage ./tyxml/ppx.nix { };
   tyxml-syntax = callPackage ./tyxml/syntax.nix { };
 
+  univ_map = (buildDunePackage {
+    pname = "univ_map";
+    version = "0.18";
+    propagatedBuildInputs = [ base ppx_base ppx_here ppx_inline_test ppx_sexp_message ppx_sexp_value ];
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "univ_map";
+      rev = "aa1f372b0e8356b2aa38ef612a76f8175bbcdebf";
+      hash = "sha256-qQeP8oGJpEXniq7p0XbOkQa8IS6x/EfanMJ77WQDNE4=";
+    };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "univ_map";
+        rev = "379d69aa2ab3877c896d4120eb7d8ec9abcab212";
+        hash = "sha256-qQeP8oGJpEXniq7p0XbOkQa8IS6x/EfanMJ77WQDNE4=";
+      } else o.src;
+  });
+
   unix-errno = osuper.unix-errno.overrideAttrs (_: {
     src = fetchFromGitHub {
       owner = "xapi-project";
@@ -2766,11 +2823,12 @@ with oself;
 
   uutf = osuper.uutf.overrideAttrs (o: {
     pname = "uutf";
-    version = if isFlambda2 then "1.0.3+jst" else o.version;
     src = if isFlambda2 then builtins.fetchurl {
       url = "https://erratique.ch/software/uutf/releases/uutf-1.0.3.tbz";
       sha256 = "sha256:0s05r8ggp1g97zq4rnvbxzj22pv8ld0k5wsdw662jw0y7mhsawl7";
     } else o.src;
+    patches = if isFlambda2 then [ ./flambda2-patchs/uutf-locals.patch ] else o.patches;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ topkg cmdliner ] else o.propagatedBuildInputs;
   });
 
   vg = osuper.vg.overrideAttrs (_: {
