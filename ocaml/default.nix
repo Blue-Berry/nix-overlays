@@ -570,9 +570,9 @@ with oself;
 
   cryptokit = (osuper.cryptokit.override { zlib = zlib-oc; });
 
-  # cstruct = osuper.cstruct.overrideAttrs (_: {
-  #   doCheck = !isFlambda2;
-  # });
+  cstruct = osuper.cstruct.overrideAttrs (_: {
+    doCheck = !isFlambda2;
+  });
 
   ctypes = osuper.ctypes.overrideAttrs (o: {
     nativeBuildInputs = o.nativeBuildInputs ++ [ pkg-config ];
@@ -1679,8 +1679,9 @@ with oself;
       rev = "1103e7246de6dac0d3f5a639f5dbe7b6a3530cf8";
       hash = "sha256-FA1NIpLz+8VqGXSjE0Rr67O45AsWaSoGl1JnAqZMeN8=";
     } else o.src;
+    doCheck = if isFlambda2 then false else true;
   });
-  ocamlformat-lib = osuper.ocamlformat-lib.overrideAttrs (_: {
+  ocamlformat-lib = osuper.ocamlformat-lib.overrideAttrs (o: {
     src = if isFlambda2 then
       fetchFromGitHub {
         owner = "janestreet";
@@ -1691,6 +1692,26 @@ with oself;
       url = "https://github.com/ocaml-ppx/ocamlformat/releases/download/0.27.0/ocamlformat-0.27.0.tbz";
       sha256 = "05bdhj73im80ci535lymrf7mq7r3xj8bg17f02agj23d0x64igyx";
     };
+    propagatedBuildInputs = if isFlambda2 then [ 
+      base
+      dune-build-info
+      either
+      fix
+      fpath
+      menhir
+      menhirLib
+      menhirSdk
+      ocaml-version
+      ocamlformat-rpc-lib
+      ocp-indent
+      stdio
+      uuseg
+      uutf
+      csexp
+      astring
+      result
+      camlp-streams
+    ] else o.propagatedBuildInputs;
   });
   ocamlformat-rpc-lib = buildDunePackage {
     pname = "ocamlformat-rpc-lib";
@@ -2827,7 +2848,7 @@ with oself;
       url = "https://erratique.ch/software/uutf/releases/uutf-1.0.3.tbz";
       sha256 = "sha256:0s05r8ggp1g97zq4rnvbxzj22pv8ld0k5wsdw662jw0y7mhsawl7";
     } else o.src;
-    patches = if isFlambda2 then [ ./flambda2-patchs/uutf-locals.patch ] else o.patches;
+    # patches = if isFlambda2 then [ ./flambda2-patchs/uutf-locals.patch ] else o.patches;
     propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ topkg cmdliner ] else o.propagatedBuildInputs;
   });
 

@@ -366,6 +366,7 @@ in
             hash = "sha256-W2FouYTA2Lv2c0o1DKt63goHheCwJa85E5p5b+cZiwU=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ core core_kernel ppx_jane ppx_optcomp sexplib ] else o.propagatedBuildInputs;
   });
 
   async_websocket = janePackage {
@@ -402,7 +403,7 @@ in
             hash = "sha256-ddWowkljYuGS6r28iaOPO61qD3gaPJY8iLHnTI2qazU=";
           }
       else o.src;
-      version = if isFlambda2 then "0.18" else o.version;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ dune-configurator ] else o.propagatedBuildInputs;
   });
 
   base_bigstring = (janePackage {
@@ -664,6 +665,19 @@ in
             hash = "sha256-NIl4puM/lmsgZO/zQuooHobQJFeJ2f/DHe+xiq896TI=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then [
+        base
+        bin_prot
+        core
+        int_repr
+        parsexp
+        ppx_jane
+        ppx_optcomp
+        ppx_stable_witness
+        sexplib
+        univ_map
+        uopt
+      ] else o.propagatedBuildInputs;
   });
 
   core_profiler = janePackage {
@@ -705,12 +719,21 @@ in
       else o.src;
   });
 
-  csvfields = janePackage {
+  csvfields = (janePackage {
     pname = "csvfields";
     hash = "sha256-hCH2NGQIRTU5U3TUOYHao6Kz5PhnLbySmzic4ytppEc=";
     propagatedBuildInputs = [ core num ];
     meta.description = "Runtime support for ppx_xml_conv and ppx_csv_conv";
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "csvfields";
+        rev = "cd066c96400c20603819874bc37eece675d31252";
+        hash = "sha256-zqw+SI4zgexwfnIWPekZvUzCBmU/ha4OQhQbOIEmNmk=";
+      } else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppxlib_jane sexplib num ] else o.propagatedBuildInputs;
+  });
 
   dedent = janePackage {
     pname = "dedent";
@@ -1035,19 +1058,36 @@ in
     '';
   };
 
-  jsonaf = janePackage {
+  jsonaf = (janePackage {
     pname = "jsonaf";
     hash = "sha256-MMIDHc40cmPpO0n8yREIGMyFndw3NfvGUhy6vHnn40w=";
     meta.description = "A library for parsing, manipulating, and serializing data structured as JSON";
     propagatedBuildInputs = [ base ppx_jane angstrom faraday ];
-  };
+  }).overrideAttrs (o: {
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "jsonaf";
+      rev = "0bd507d6cdb935567a5c9727c447168d71dea09b";
+      sha256 = "";
+    };
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [
+      bigstringaf
+    ] else o.propagatedBuildInputs;
+  });
 
-  jst-config = janePackage {
+  jst-config = (janePackage {
     pname = "jst-config";
     hash = "sha256-xwQ+q2Hsduu2vWMWFcjoj3H8Es00N7Mv9LwIZG4hw7c=";
     meta.description = "Compile-time configuration for Jane Street libraries";
     buildInputs = [ dune-configurator base ppx_assert ];
-  };
+  }).overrideAttrs (o: {
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "jst-config";
+      rev = "aba02f225653492d99ce44c7337283b4ab16fde8";
+      sha256 = "sha256-8pZZxLAgv+PUaccbpuDrkvyvdASyYkcSE0UNdPau1Fs=";
+    };
+  });
 
   krb = null;
 
@@ -1517,13 +1557,22 @@ in
       else o.src;
   });
 
-  ppx_conv_func = janePackage {
+  ppx_conv_func = (janePackage {
     pname = "ppx_conv_func";
     hash = "sha256-PJ8T0u8VkxefaxojwrmbMXDjqyfAIxKe92B8QqRY2JU=";
     minimalOCamlVersion = "4.14";
     meta.description = "Part of the Jane Street's PPX rewriters collection.";
     propagatedBuildInputs = [ base ppxlib ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then
+      fetchFromGitHub {
+        owner = "janestreet";
+        repo = "ppx_conv_func";
+        rev = "a8cdd9b786e0cf914499cee572d2e2265ef9fa4e";
+        hash = "sha256-Dg1rIR20hY59erW2XbEIu1MJPtmfbmxpFTBtbKbnX3o=";
+      } else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppxlib_jane ] else o.propagatedBuildInputs;
+  });
 
   ppx_csv_conv = janePackage {
     pname = "ppx_csv_conv";
@@ -2174,6 +2223,7 @@ in
             hash = "sha256-m/Kf7Yuh/uzaQK9Xn6Y6AjccUABLhb8pGv+NCgCyjuc=";
           }
       else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
   });
 
   ppx_variants_conv = (janePackage {
@@ -2197,13 +2247,26 @@ in
       propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
   });
 
-  ppx_xml_conv = janePackage {
+  ppx_xml_conv = (janePackage {
     pname = "ppx_xml_conv";
     minimalOCamlVersion = "4.14";
     hash = "sha256-4U0ZlV8OYXwNUz3bbxf49qovGTI8vyn7L3YJy0AndrM=";
     meta.description = "Generate XML conversion functions from records";
     propagatedBuildInputs = [ base csvfields ppx_conv_func ppx_fields_conv ];
-  };
+  }).overrideAttrs (o: {
+    src =
+      if isFlambda2
+      then
+        fetchFromGitHub
+          {
+            owner = "janestreet";
+            repo = "ppx_xml_conv";
+            rev = "53c18b0d665a5cb30a3e2842499deac9ee03b506";
+            hash = "sha256-pQpXtEJXrP8tte8nKtaupr/27UUOW3mG8hx/yoI6Bhk=";
+          }
+      else o.src;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppxlib ] else o.propagatedBuildInputs;
+  });
 
   ppx_yojson_conv_lib = janePackage {
     pname = "ppx_yojson_conv_lib";
@@ -2287,7 +2350,7 @@ in
     propagatedBuildInputs = [ base regex_parser_intf re ];
   };
 
-  re2 = janePackage {
+  re2 = (janePackage {
     pname = "re2";
     hash = "sha256-0VCSOzrVouMRVZJumcqv0F+HQFXlFfVEFIhYq7Tfhrg=";
     meta.description = "OCaml bindings for RE2, Google's regular expression library";
@@ -2295,7 +2358,15 @@ in
     prePatch = ''
       substituteInPlace src/re2_c/dune --replace-fail 'CXX=g++' 'CXX=c++'
     '';
-  };
+  }).overrideAttrs (o: {
+    src = fetchFromGitHub {
+      owner = "janestreet";
+      repo = "re2";
+      rev = "104c238ad52749fdf7a8c2484e7b0d461458514f";
+      sha256 = "";
+    };
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppx_jane ppx_stable_witness ] else o.propagatedBuildInputs;
+  });
 
   re2_stable = janePackage {
     pname = "re2_stable";
@@ -2364,7 +2435,7 @@ in
     propagatedBuildInputs = [ async_kernel core ppx_jane ];
   };
 
-  sexp = janePackage {
+  sexp = (janePackage {
     pname = "sexp";
     hash = "sha256-89SNb0MeJbetRRbA5qbBQPXIcLQ0QCeSf8p9v5yUTP0=";
     propagatedBuildInputs = [
@@ -2380,14 +2451,47 @@ in
       shell
     ];
     meta.description = "S-expression swiss knife";
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 fetchFromGitHub then {
+      owner = "janestreet";
+      repo = "sexp";
+      rev = "f712fa939bdd4e2601842b007a23c76143620f2d";
+      sha256 = "";
+    } else o.src;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [
+      async
+      base
+      core
+      core_unix
+      csvfields
+      jsonaf
+      parsexp
+      ppx_jane
+      re2
+      sexp_diff
+      sexp_macro
+      sexp_pretty
+      sexp_select
+      sexplib
+      shell
+      angstrom
+    ] else o.propagatedBuildInputs;
+  });
 
-  sexp_diff = janePackage {
+  sexp_diff = (janePackage {
     pname = "sexp_diff";
     hash = "sha256-0p1+jMa2b/GJu+JtN+XUuR04lFQchxMeu9ikfgErqMU=";
     propagatedBuildInputs = [ core_kernel ];
     meta.description = "Code for computing the diff of two sexps";
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then fetchFromGitHub {
+      owner = "janestreet";
+      repo = "sexp_diff";
+      rev = "d02eaf2cd59d9414ff67d1323faf48f8f64a4168";
+      sha256 = "";
+    } else o.src;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppx_jane core ] else o.propagatedBuildInputs;
+  });
 
   sexp_grammar = janePackage {
     pname = "sexp_grammar";
@@ -2405,19 +2509,35 @@ in
     ];
   };
 
-  sexp_macro = janePackage {
+  sexp_macro = (janePackage {
     pname = "sexp_macro";
     hash = "sha256-KXJ+6uR38ywkr8uT8n2bWk10W7vW2ntMgxgF4ZvzzWU=";
     propagatedBuildInputs = [ async sexplib ];
     meta.description = "Sexp macros";
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then fetchFromGitHub {
+      owner = "janestreet";
+      repo = "sexp_macro";
+      rev = "1765be18ddb7a2ab139dee5cff6cccdd3a01edeb";
+      sha256 = "";
+    } else o.src;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ ppx_jane core ] else o.propagatedBuildInputs;
+  });
 
-  sexp_pretty = janePackage {
+  sexp_pretty = (janePackage {
     pname = "sexp_pretty";
     hash = "sha256-DcgLlwp3AMC1QzFYPzi7aHA+VhnhbG6p/fLDTMx8ATc=";
     meta.description = "S-expression pretty-printer";
     propagatedBuildInputs = [ ppx_base re sexplib ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then fetchFromGitHub {
+      owner = "janestreet";
+      repo = "sexp_pretty";
+      rev = "9ed833044944eb9d803be9a0753ccd15990cd387";
+      sha256 = "sha256-27GvV/VjgO+mjUKhBGDE2z2SNzrTIe/IHEPlnc9RyBg=";
+    } else o.src;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ base ] else o.propagatedBuildInputs;
+  });
 
   sexp_select = janePackage {
     pname = "sexp_select";
@@ -2475,14 +2595,22 @@ in
       propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ sexplib0 ] else o.propagatedBuildInputs;
   });
 
-  shell = janePackage {
+  shell = (janePackage {
     pname = "shell";
     hash = "sha256-MJerTFLGrUaR3y3mnKVrH5EQHYBXZyuVL+n2wJZ9HoU=";
     meta.description = "Yet another implementation of fork&exec and related functionality";
     buildInputs = [ jst-config ];
     propagatedBuildInputs = [ textutils ];
     checkInputs = [ ounit ];
-  };
+  }).overrideAttrs (o: {
+    src = if isFlambda2 then fetchFromGitHub {
+      owner = "janestreet";
+      repo = "shell";
+      rev = "d9b22113483662ed491404dc347235e185404aa5";
+      sha256 = "";
+    } else o.src;
+    propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ core core_unix jst-config ppx_jane spawn ] else o.propagatedBuildInputs;
+  });
 
   shexp = janePackage {
     pname = "shexp";
@@ -2549,7 +2677,7 @@ in
             hash = "sha256-tnzQF6HdU1N5WuMFEfp/LzN4mJrLpNBKByGxe4Okq4k=";
           }
       else o.src;
-      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ sexplib0 ] else o.propagatedBuildInputs;
+      propagatedBuildInputs = if isFlambda2 then o.propagatedBuildInputs ++ [ sexplib0 base ] else o.propagatedBuildInputs;
   });
 
   stored_reversed = janePackage {
@@ -2576,7 +2704,7 @@ in
             hash = "sha256-I9gASypPejRSGxt+z2Q6YtC/tpHsYc7xr2JuXux1mtc=";
           }
       else o.src;
-      propagatedBuildInputs = if isFlambda2 then [ core core_kernel core_unix ppx_jane ] else o.propagatedBuildInputs;
+      propagatedBuildInputs = if isFlambda2 then [ core core_kernel core_unix ppx_jane uutf ] else o.propagatedBuildInputs;
       version = if isFlambda2 then "0.18" else o.version;
   });
 
@@ -2597,7 +2725,6 @@ in
             hash = "sha256-gijyyrvyQu62uaptILwzHHgyglS3dpDBwnhNx0uzOG4=";
           }
       else o.src;
-      version = if isFlambda2 then "0.18" else o.version;
   });
 
   tilde_f = janePackage {
